@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Nov-2020 às 16:27
+-- Tempo de geração: 17-Nov-2020 às 22:10
 -- Versão do servidor: 10.4.13-MariaDB
 -- versão do PHP: 7.2.32
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `egift`    
+-- Banco de dados: `myegift`
 --
 
 -- --------------------------------------------------------
@@ -113,6 +113,21 @@ CREATE TABLE `tbenderecofornecedor` (
   `cepFornecedor` varchar(25) NOT NULL,
   `nmrFornecedor` varchar(35) NOT NULL,
   `fk_idCliente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbentrega`
+--
+
+CREATE TABLE `tbentrega` (
+  `idEntrega` int(11) NOT NULL,
+  `dataEntrega` date NOT NULL,
+  `bilhete` varchar(250) NOT NULL,
+  `cor_bilhete` varchar(15) NOT NULL,
+  `fk_iditens` int(11) NOT NULL,
+  `fk_idformapagamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -283,9 +298,12 @@ CREATE TABLE `tbobjeto` (
 --
 
 CREATE TABLE `tbpedido` (
-  `idProduto` int(11) NOT NULL,
-  `frete_option` varchar(35) NOT NULL,
-  `fk_idProduto` int(11) NOT NULL
+  `idPedido` int(11) NOT NULL,
+  `dataEntrega` date NOT NULL,
+  `Quantidade_pedidos` int(11) NOT NULL,
+  `media_pedidos` int(11) NOT NULL,
+  `fk_idVenda` int(11) NOT NULL,
+  `fk_idFornecedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -475,6 +493,19 @@ CREATE TABLE `tbtelefonefornecedor` (
   `fk_idFornecedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbvenda`
+--
+
+CREATE TABLE `tbvenda` (
+  `idVenda` int(11) NOT NULL,
+  `dataVenda` date NOT NULL,
+  `valorTotalVenda` decimal(10,0) NOT NULL,
+  `fk_idEntrega` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tabelas despejadas
 --
@@ -526,6 +557,13 @@ ALTER TABLE `tbenderecocliente`
 ALTER TABLE `tbenderecofornecedor`
   ADD PRIMARY KEY (`idEnderecoFornecedor`),
   ADD KEY `fk_Fornecedor` (`fk_idCliente`);
+
+--
+-- Índices para tabela `tbentrega`
+--
+ALTER TABLE `tbentrega`
+  ADD PRIMARY KEY (`idEntrega`),
+  ADD KEY `fk_iditens` (`fk_iditens`);
 
 --
 -- Índices para tabela `tbformapagamentocliente`
@@ -611,8 +649,9 @@ ALTER TABLE `tbobjeto`
 -- Índices para tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  ADD PRIMARY KEY (`idProduto`),
-  ADD KEY `fk_produto` (`fk_idProduto`);
+  ADD PRIMARY KEY (`idPedido`),
+  ADD KEY `fk_idFornecedor` (`fk_idFornecedor`),
+  ADD KEY `fk_idVenda` (`fk_idVenda`);
 
 --
 -- Índices para tabela `tbprecoacessorio`
@@ -726,6 +765,13 @@ ALTER TABLE `tbtelefonefornecedor`
   ADD KEY `fornecedor_fk` (`fk_idFornecedor`);
 
 --
+-- Índices para tabela `tbvenda`
+--
+ALTER TABLE `tbvenda`
+  ADD PRIMARY KEY (`idVenda`),
+  ADD KEY `fk_idEntrega` (`fk_idEntrega`);
+
+--
 -- AUTO_INCREMENT de tabelas despejadas
 --
 
@@ -770,6 +816,12 @@ ALTER TABLE `tbenderecocliente`
 --
 ALTER TABLE `tbenderecofornecedor`
   MODIFY `idEnderecoFornecedor` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tbentrega`
+--
+ALTER TABLE `tbentrega`
+  MODIFY `idEntrega` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbformapagamentocliente`
@@ -853,7 +905,7 @@ ALTER TABLE `tbobjeto`
 -- AUTO_INCREMENT de tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbprecoacessorio`
@@ -952,6 +1004,12 @@ ALTER TABLE `tbtelefonefornecedor`
   MODIFY `idTelefoneFornecedor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `tbvenda`
+--
+ALTER TABLE `tbvenda`
+  MODIFY `idVenda` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Restrições para despejos de tabelas
 --
 
@@ -977,6 +1035,12 @@ ALTER TABLE `tbenderecofornecedor`
   ADD CONSTRAINT `fk_Fornecedor` FOREIGN KEY (`fk_idCliente`) REFERENCES `tbfornecedor` (`idFornecedor`);
 
 --
+-- Limitadores para a tabela `tbentrega`
+--
+ALTER TABLE `tbentrega`
+  ADD CONSTRAINT `fk_iditens` FOREIGN KEY (`fk_iditens`) REFERENCES `tbitens` (`iditens`);
+
+--
 -- Limitadores para a tabela `tbitens`
 --
 ALTER TABLE `tbitens`
@@ -992,7 +1056,8 @@ ALTER TABLE `tbobjeto`
 -- Limitadores para a tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  ADD CONSTRAINT `fk_produto` FOREIGN KEY (`fk_idProduto`) REFERENCES `tbproduto` (`idProduto`);
+  ADD CONSTRAINT `fk_idFornecedor` FOREIGN KEY (`fk_idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`),
+  ADD CONSTRAINT `fk_idVenda` FOREIGN KEY (`fk_idVenda`) REFERENCES `tbvenda` (`idVenda`);
 
 --
 -- Limitadores para a tabela `tbproduto`
@@ -1038,6 +1103,12 @@ ALTER TABLE `tbtelefonecliente`
 --
 ALTER TABLE `tbtelefonefornecedor`
   ADD CONSTRAINT `fornecedor_fk` FOREIGN KEY (`fk_idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`);
+
+--
+-- Limitadores para a tabela `tbvenda`
+--
+ALTER TABLE `tbvenda`
+  ADD CONSTRAINT `fk_idEntrega` FOREIGN KEY (`fk_idEntrega`) REFERENCES `tbentrega` (`idEntrega`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
