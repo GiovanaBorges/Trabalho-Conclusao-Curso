@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17-Nov-2020 às 22:10
+-- Tempo de geração: 19-Nov-2020 às 23:35
 -- Versão do servidor: 10.4.13-MariaDB
 -- versão do PHP: 7.2.32
 
@@ -18,128 +18,63 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `myegift`
+-- Banco de dados: `bdegift`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbacessorio`
+-- Estrutura da tabela `tbagendamento`
 --
 
-CREATE TABLE `tbacessorio` (
-  `idAcessorio` int(11) NOT NULL,
-  `fk_idMarcaAcessorio` int(11) NOT NULL,
-  `fk_idQuantAcessorio` int(11) NOT NULL,
-  `fk_idPrecoAcessorio` int(11) NOT NULL,
-  `fk_idObjeto` int(11) NOT NULL,
-  `fk_idimagemAcessorio` int(11) NOT NULL
+CREATE TABLE `tbagendamento` (
+  `idagendamento` int(11) NOT NULL,
+  `data_agendamento` date DEFAULT NULL,
+  `hora_agendamento` datetime DEFAULT NULL,
+  `estadoUsuario` varchar(3) DEFAULT NULL,
+  `cidadeUsuario` varchar(35) DEFAULT NULL,
+  `bairroUsuario` varchar(32) DEFAULT NULL,
+  `logradouroUsuario` varchar(100) DEFAULT NULL,
+  `cepUsuario` varchar(10) DEFAULT NULL,
+  `nmrCasaUsuario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbaperitivo`
+-- Estrutura da tabela `tbeletrodomestico`
 --
 
-CREATE TABLE `tbaperitivo` (
-  `idAperitivo` int(11) NOT NULL
+CREATE TABLE `tbeletrodomestico` (
+  `idEletrodomestico` int(11) NOT NULL,
+  `descr_Eletrodomestico` varchar(255) DEFAULT NULL,
+  `preco_Eletrodomestico` decimal(10,5) DEFAULT NULL,
+  `tamanho_Eletrodomestico` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbbebida`
+-- Estrutura da tabela `tbeletronico`
 --
 
-CREATE TABLE `tbbebida` (
-  `idBebida` int(11) NOT NULL
+CREATE TABLE `tbeletronico` (
+  `idEletronico` int(11) NOT NULL,
+  `descr_Eletronico` varchar(255) DEFAULT NULL,
+  `preco_Eletronico` decimal(10,5) DEFAULT NULL,
+  `tamanho_Eletronico` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbcliente`
+-- Estrutura da tabela `tbformapagamento`
 --
 
-CREATE TABLE `tbcliente` (
-  `idCliente` int(11) NOT NULL,
-  `nomeCliente` varchar(35) NOT NULL,
-  `rgCliente` varchar(17) NOT NULL,
-  `emailCliente` varchar(30) NOT NULL,
-  `cpfCliente` varchar(15) NOT NULL,
-  `senhaCliente` varchar(35) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbdoce`
---
-
-CREATE TABLE `tbdoce` (
-  `idDoce` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbenderecocliente`
---
-
-CREATE TABLE `tbenderecocliente` (
-  `idEnderecoCliente` int(11) NOT NULL,
-  `estadoCliente` varchar(3) NOT NULL,
-  `cidadeCliente` varchar(35) NOT NULL,
-  `bairroCliente` varchar(35) NOT NULL,
-  `logradouroCliente` varchar(100) NOT NULL,
-  `cepCliente` varchar(10) NOT NULL,
-  `nmrCasaCliente` int(11) NOT NULL,
-  `fk_idCliente` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbenderecofornecedor`
---
-
-CREATE TABLE `tbenderecofornecedor` (
-  `idEnderecoFornecedor` int(11) NOT NULL,
-  `estadoFornecedor` varchar(35) NOT NULL,
-  `cidadeFornecedor` varchar(35) NOT NULL,
-  `bairroFornecedor` varchar(35) NOT NULL,
-  `logradouroFornecedor` varchar(120) NOT NULL,
-  `cepFornecedor` varchar(25) NOT NULL,
-  `nmrFornecedor` varchar(35) NOT NULL,
-  `fk_idCliente` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbentrega`
---
-
-CREATE TABLE `tbentrega` (
-  `idEntrega` int(11) NOT NULL,
-  `dataEntrega` date NOT NULL,
-  `bilhete` varchar(250) NOT NULL,
-  `cor_bilhete` varchar(15) NOT NULL,
-  `fk_iditens` int(11) NOT NULL,
-  `fk_idformapagamento` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbformapagamentocliente`
---
-
-CREATE TABLE `tbformapagamentocliente` (
+CREATE TABLE `tbformapagamento` (
   `idformapagamento` int(11) NOT NULL,
-  `formapagamento` varchar(35) NOT NULL,
-  `fk_idCliente` int(11) NOT NULL
+  `formapagaemento` varchar(35) DEFAULT NULL,
+  `fk_idUsuario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -150,66 +85,68 @@ CREATE TABLE `tbformapagamentocliente` (
 
 CREATE TABLE `tbfornecedor` (
   `idFornecedor` int(11) NOT NULL,
-  `nomeFornecedor` varchar(35) NOT NULL,
-  `emailFornecedor` varchar(35) NOT NULL,
-  `senhaFornecedor` varchar(35) NOT NULL,
-  `cpfFornecedor` varchar(35) NOT NULL
+  `nomeFornecedor` varchar(18) DEFAULT NULL,
+  `sobrenomeFornecedor` varchar(25) DEFAULT NULL,
+  `emailFornecedor` varchar(30) DEFAULT NULL,
+  `senhaFornecedor` varchar(35) DEFAULT NULL,
+  `datanascimentoFornecedor` int(11) DEFAULT NULL,
+  `cpfFornecedor` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbimagemacessorio`
+-- Estrutura da tabela `tbimagemeletrodomestico`
 --
 
-CREATE TABLE `tbimagemacessorio` (
-  `idimagemAcessorio` int(11) NOT NULL,
-  `nome_imagem` varchar(25) NOT NULL,
-  `tamanho_imagem` varchar(25) NOT NULL,
-  `tipo_imagem` varchar(25) NOT NULL,
-  `imagem` varbinary(280) NOT NULL
+CREATE TABLE `tbimagemeletrodomestico` (
+  `idimagemEletrodomestico` int(11) NOT NULL,
+  `nome_imagem` varchar(25) DEFAULT NULL,
+  `tamanho_imagem` varchar(25) DEFAULT NULL,
+  `imagem` blob DEFAULT NULL,
+  `fk_idEletrodomestico` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbimagemdoce`
+-- Estrutura da tabela `tbimagemeletronico`
 --
 
-CREATE TABLE `tbimagemdoce` (
-  `idimagemDoce` int(11) NOT NULL,
-  `nome_imagem` varchar(25) NOT NULL,
-  `tamanho_imagem` varchar(25) NOT NULL,
-  `tipo_imagem` varchar(25) NOT NULL,
-  `imagem` varbinary(280) NOT NULL
+CREATE TABLE `tbimagemeletronico` (
+  `idimagemEletronico` int(11) NOT NULL,
+  `nome_imagem` varchar(25) DEFAULT NULL,
+  `tamanho_imagem` varchar(25) DEFAULT NULL,
+  `imagem` blob DEFAULT NULL,
+  `fk_idEletronico` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbimagemrefri`
+-- Estrutura da tabela `tbimagemfornecedor`
 --
 
-CREATE TABLE `tbimagemrefri` (
-  `idimagemRefri` int(11) NOT NULL,
+CREATE TABLE `tbimagemfornecedor` (
+  `idimagemFornecedor` int(11) NOT NULL,
   `nome_imagem` varchar(25) NOT NULL,
   `tamanho_imagem` varchar(25) NOT NULL,
-  `tipo_imagem` varchar(25) NOT NULL,
-  `imagem` varbinary(280) NOT NULL
+  `imagem` blob NOT NULL,
+  `fk_idFornecedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbimagemsalgado`
+-- Estrutura da tabela `tbimagemroupa`
 --
 
-CREATE TABLE `tbimagemsalgado` (
-  `idimagemSalgado` int(11) NOT NULL,
-  `nome_imagem` varchar(25) NOT NULL,
-  `tamanho_imagem` varchar(25) NOT NULL,
-  `tipo_imagem` varchar(25) NOT NULL,
-  `imagem` varbinary(280) NOT NULL
+CREATE TABLE `tbimagemroupa` (
+  `idimagemRoupa` int(11) NOT NULL,
+  `nome_imagem` varchar(25) DEFAULT NULL,
+  `tamanho_imagem` varchar(25) DEFAULT NULL,
+  `imagem` blob DEFAULT NULL,
+  `fk_idRoupa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -220,75 +157,10 @@ CREATE TABLE `tbimagemsalgado` (
 
 CREATE TABLE `tbitens` (
   `iditens` int(11) NOT NULL,
-  `valorTotal` decimal(10,0) NOT NULL,
-  `quant_Produto` int(11) NOT NULL,
-  `fk_idProduto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbmarcaacessorio`
---
-
-CREATE TABLE `tbmarcaacessorio` (
-  `idMarcaAcessorio` int(11) NOT NULL,
-  `nomeMarcaAcessorio` varchar(21) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbmarcadoce`
---
-
-CREATE TABLE `tbmarcadoce` (
-  `idMarcaDoce` int(11) NOT NULL,
-  `nomeMarcaDoce` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbmarcarefri`
---
-
-CREATE TABLE `tbmarcarefri` (
-  `idMarcaRefri` int(11) NOT NULL,
-  `nomeMarcaRefri` varchar(35) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbmarcasalgado`
---
-
-CREATE TABLE `tbmarcasalgado` (
-  `idMarcaSalgado` int(11) NOT NULL,
-  `nomeMarcaSalgado` varchar(21) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbmarcasuco`
---
-
-CREATE TABLE `tbmarcasuco` (
-  `idMarcaSuco` int(11) NOT NULL,
-  `nomeMarcaSuco` varchar(21) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbobjeto`
---
-
-CREATE TABLE `tbobjeto` (
-  `idObjeto` int(11) NOT NULL,
-  `fk_idAcessorio` int(11) NOT NULL
+  `quant_items_total` int(11) DEFAULT NULL,
+  `idEletrodomestico` int(11) DEFAULT NULL,
+  `fk_idRoupa` int(11) DEFAULT NULL,
+  `fk_idEletronico` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -298,187 +170,28 @@ CREATE TABLE `tbobjeto` (
 --
 
 CREATE TABLE `tbpedido` (
-  `idPedido` int(11) NOT NULL,
-  `dataEntrega` date NOT NULL,
-  `Quantidade_pedidos` int(11) NOT NULL,
-  `media_pedidos` int(11) NOT NULL,
-  `fk_idVenda` int(11) NOT NULL,
+  `idpedido` int(11) NOT NULL,
+  `hora_entrega` datetime DEFAULT NULL,
+  `data_entrega` date DEFAULT NULL,
+  `carta_cor` varchar(25) DEFAULT NULL,
+  `carta_desc` varchar(255) DEFAULT NULL,
+  `embalagem_produto` varchar(35) DEFAULT NULL,
+  `fk_idAgendamento` int(11) NOT NULL,
   `fk_idFornecedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbprecoacessorio`
+-- Estrutura da tabela `tbroupa`
 --
 
-CREATE TABLE `tbprecoacessorio` (
-  `idPrecoAcessorio` int(11) NOT NULL,
-  `precoAcessorio` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbprecodoce`
---
-
-CREATE TABLE `tbprecodoce` (
-  `idPrecoDoce` int(11) NOT NULL,
-  `PrecoDoce` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbprecorefri`
---
-
-CREATE TABLE `tbprecorefri` (
-  `idPrecoRefri` int(11) NOT NULL,
-  `PrecoRefri` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbprecosalgado`
---
-
-CREATE TABLE `tbprecosalgado` (
-  `idPrecoSalgado` int(11) NOT NULL,
-  `PrecoSalgado` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbprecosuco`
---
-
-CREATE TABLE `tbprecosuco` (
-  `idPrecoSuco` int(11) NOT NULL,
-  `PrecoSuco` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbproduto`
---
-
-CREATE TABLE `tbproduto` (
-  `idProduto` int(11) NOT NULL,
-  `fk_idBebida` int(11) NOT NULL,
-  `fk_idAperitivo` int(11) NOT NULL,
-  `fk_idObjeto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbquantacessorio`
---
-
-CREATE TABLE `tbquantacessorio` (
-  `idQuantAcessorio` int(11) NOT NULL,
-  `QuantAcessorio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbquantdoce`
---
-
-CREATE TABLE `tbquantdoce` (
-  `idQuantDoce` int(11) NOT NULL,
-  `QuantDoce` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbquantrefri`
---
-
-CREATE TABLE `tbquantrefri` (
-  `idQuantRefri` int(11) NOT NULL,
-  `QuantRefri` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbquantsalgado`
---
-
-CREATE TABLE `tbquantsalgado` (
-  `idQuantSalgado` int(11) NOT NULL,
-  `QuantSalgado` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbquantsuco`
---
-
-CREATE TABLE `tbquantsuco` (
-  `idQuantSuco` int(11) NOT NULL,
-  `QuantSuco` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbrefri`
---
-
-CREATE TABLE `tbrefri` (
-  `idRefri` int(11) NOT NULL,
-  `fk_idPrecoRefri` int(11) NOT NULL,
-  `fk_idQuantRefri` int(11) NOT NULL,
-  `fk_idMarcaRefri` int(11) NOT NULL,
-  `fk_idimagemRefri` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbsalgado`
---
-
-CREATE TABLE `tbsalgado` (
-  `idSalgado` int(11) NOT NULL,
-  `fk_idMarcaSalgado` int(11) NOT NULL,
-  `fk_idPrecoSalgado` int(11) NOT NULL,
-  `fk_idQuantSalgado` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbsuco`
---
-
-CREATE TABLE `tbsuco` (
-  `idSuco` int(11) NOT NULL,
-  `fk_idPrecoSuco` int(11) NOT NULL,
-  `fk_idQuantSuco` int(11) NOT NULL,
-  `fk_idMarcaSuco` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbtelefonecliente`
---
-
-CREATE TABLE `tbtelefonecliente` (
-  `idTelefoneCliente` int(11) NOT NULL,
-  `numeroTelefone` varchar(25) NOT NULL,
-  `fk_idCliente` int(11) NOT NULL
+CREATE TABLE `tbroupa` (
+  `idRoupa` int(11) NOT NULL,
+  `marca_Roupa` varchar(35) DEFAULT NULL,
+  `descr_Roupa` varchar(255) DEFAULT NULL,
+  `preco_Roupa` decimal(10,5) DEFAULT NULL,
+  `tamanho_Roupa` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -488,9 +201,35 @@ CREATE TABLE `tbtelefonecliente` (
 --
 
 CREATE TABLE `tbtelefonefornecedor` (
-  `idTelefoneFornecedor` int(11) NOT NULL,
-  `numeroTelefoneFornecedor` varchar(25) NOT NULL,
-  `fk_idFornecedor` int(11) NOT NULL
+  `idtelefoneFornecedor` int(11) NOT NULL,
+  `NumeroTelefone` varchar(19) DEFAULT NULL,
+  `fk_idFornecedor` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbtelefoneusuario`
+--
+
+CREATE TABLE `tbtelefoneusuario` (
+  `idtelefoneUsuario` int(11) NOT NULL,
+  `NumeroTelefoneUsuario` varchar(25) DEFAULT NULL,
+  `fk_idUsuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbusuario`
+--
+
+CREATE TABLE `tbusuario` (
+  `idUsuario` int(11) NOT NULL,
+  `nomeUsuario` varchar(18) DEFAULT NULL,
+  `sobrenomeUsuario` varchar(25) DEFAULT NULL,
+  `emailUsuario` varchar(30) DEFAULT NULL,
+  `datanascimentoUsuario` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -501,9 +240,10 @@ CREATE TABLE `tbtelefonefornecedor` (
 
 CREATE TABLE `tbvenda` (
   `idVenda` int(11) NOT NULL,
-  `dataVenda` date NOT NULL,
-  `valorTotalVenda` decimal(10,0) NOT NULL,
-  `fk_idEntrega` int(11) NOT NULL
+  `valor_total_Venda` decimal(10,5) DEFAULT NULL,
+  `quant_items_Venda` int(11) DEFAULT NULL,
+  `data_Venda` date DEFAULT NULL,
+  `valor_frete` decimal(10,5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -511,65 +251,29 @@ CREATE TABLE `tbvenda` (
 --
 
 --
--- Índices para tabela `tbacessorio`
+-- Índices para tabela `tbagendamento`
 --
-ALTER TABLE `tbacessorio`
-  ADD PRIMARY KEY (`idAcessorio`),
-  ADD KEY `fk_idPrecoAcessorio` (`fk_idPrecoAcessorio`),
-  ADD KEY `fk_idQuantAcessorio` (`fk_idQuantAcessorio`),
-  ADD KEY `fk_idMarcaAcessorio` (`fk_idMarcaAcessorio`),
-  ADD KEY `fk_idimagemAcessorio` (`fk_idimagemAcessorio`);
+ALTER TABLE `tbagendamento`
+  ADD PRIMARY KEY (`idagendamento`);
 
 --
--- Índices para tabela `tbaperitivo`
+-- Índices para tabela `tbeletrodomestico`
 --
-ALTER TABLE `tbaperitivo`
-  ADD PRIMARY KEY (`idAperitivo`);
+ALTER TABLE `tbeletrodomestico`
+  ADD PRIMARY KEY (`idEletrodomestico`);
 
 --
--- Índices para tabela `tbbebida`
+-- Índices para tabela `tbeletronico`
 --
-ALTER TABLE `tbbebida`
-  ADD PRIMARY KEY (`idBebida`);
+ALTER TABLE `tbeletronico`
+  ADD PRIMARY KEY (`idEletronico`);
 
 --
--- Índices para tabela `tbcliente`
+-- Índices para tabela `tbformapagamento`
 --
-ALTER TABLE `tbcliente`
-  ADD PRIMARY KEY (`idCliente`);
-
---
--- Índices para tabela `tbdoce`
---
-ALTER TABLE `tbdoce`
-  ADD PRIMARY KEY (`idDoce`);
-
---
--- Índices para tabela `tbenderecocliente`
---
-ALTER TABLE `tbenderecocliente`
-  ADD PRIMARY KEY (`idEnderecoCliente`),
-  ADD KEY `idCliente_fk` (`fk_idCliente`);
-
---
--- Índices para tabela `tbenderecofornecedor`
---
-ALTER TABLE `tbenderecofornecedor`
-  ADD PRIMARY KEY (`idEnderecoFornecedor`),
-  ADD KEY `fk_Fornecedor` (`fk_idCliente`);
-
---
--- Índices para tabela `tbentrega`
---
-ALTER TABLE `tbentrega`
-  ADD PRIMARY KEY (`idEntrega`),
-  ADD KEY `fk_iditens` (`fk_iditens`);
-
---
--- Índices para tabela `tbformapagamentocliente`
---
-ALTER TABLE `tbformapagamentocliente`
-  ADD PRIMARY KEY (`idformapagamento`);
+ALTER TABLE `tbformapagamento`
+  ADD PRIMARY KEY (`idformapagamento`),
+  ADD KEY `fk_idUsuario` (`fk_idUsuario`);
 
 --
 -- Índices para tabela `tbfornecedor`
@@ -578,255 +282,107 @@ ALTER TABLE `tbfornecedor`
   ADD PRIMARY KEY (`idFornecedor`);
 
 --
--- Índices para tabela `tbimagemacessorio`
+-- Índices para tabela `tbimagemeletrodomestico`
 --
-ALTER TABLE `tbimagemacessorio`
-  ADD PRIMARY KEY (`idimagemAcessorio`);
+ALTER TABLE `tbimagemeletrodomestico`
+  ADD PRIMARY KEY (`idimagemEletrodomestico`),
+  ADD KEY `fk_ideletrodomestico` (`fk_idEletrodomestico`);
 
 --
--- Índices para tabela `tbimagemdoce`
+-- Índices para tabela `tbimagemeletronico`
 --
-ALTER TABLE `tbimagemdoce`
-  ADD PRIMARY KEY (`idimagemDoce`);
+ALTER TABLE `tbimagemeletronico`
+  ADD PRIMARY KEY (`idimagemEletronico`),
+  ADD KEY `fk_idEletronico` (`fk_idEletronico`);
 
 --
--- Índices para tabela `tbimagemrefri`
+-- Índices para tabela `tbimagemfornecedor`
 --
-ALTER TABLE `tbimagemrefri`
-  ADD PRIMARY KEY (`idimagemRefri`);
+ALTER TABLE `tbimagemfornecedor`
+  ADD PRIMARY KEY (`idimagemFornecedor`),
+  ADD KEY `fkFornecedor` (`fk_idFornecedor`);
 
 --
--- Índices para tabela `tbimagemsalgado`
+-- Índices para tabela `tbimagemroupa`
 --
-ALTER TABLE `tbimagemsalgado`
-  ADD PRIMARY KEY (`idimagemSalgado`);
+ALTER TABLE `tbimagemroupa`
+  ADD PRIMARY KEY (`idimagemRoupa`),
+  ADD KEY `fk_idRoupa` (`fk_idRoupa`);
 
 --
 -- Índices para tabela `tbitens`
 --
 ALTER TABLE `tbitens`
   ADD PRIMARY KEY (`iditens`),
-  ADD KEY `fk_idProduto` (`fk_idProduto`);
-
---
--- Índices para tabela `tbmarcaacessorio`
---
-ALTER TABLE `tbmarcaacessorio`
-  ADD PRIMARY KEY (`idMarcaAcessorio`);
-
---
--- Índices para tabela `tbmarcadoce`
---
-ALTER TABLE `tbmarcadoce`
-  ADD PRIMARY KEY (`idMarcaDoce`);
-
---
--- Índices para tabela `tbmarcarefri`
---
-ALTER TABLE `tbmarcarefri`
-  ADD PRIMARY KEY (`idMarcaRefri`);
-
---
--- Índices para tabela `tbmarcasalgado`
---
-ALTER TABLE `tbmarcasalgado`
-  ADD PRIMARY KEY (`idMarcaSalgado`);
-
---
--- Índices para tabela `tbmarcasuco`
---
-ALTER TABLE `tbmarcasuco`
-  ADD PRIMARY KEY (`idMarcaSuco`);
-
---
--- Índices para tabela `tbobjeto`
---
-ALTER TABLE `tbobjeto`
-  ADD PRIMARY KEY (`idObjeto`),
-  ADD KEY `fk_Acessorio` (`fk_idAcessorio`);
+  ADD KEY `fk_eletronico` (`fk_idEletronico`),
+  ADD KEY `idEletrodomestico` (`idEletrodomestico`),
+  ADD KEY `idRoupa` (`fk_idRoupa`);
 
 --
 -- Índices para tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  ADD PRIMARY KEY (`idPedido`),
-  ADD KEY `fk_idFornecedor` (`fk_idFornecedor`),
-  ADD KEY `fk_idVenda` (`fk_idVenda`);
+  ADD PRIMARY KEY (`idpedido`),
+  ADD KEY `fk_idAgendamento` (`fk_idAgendamento`),
+  ADD KEY `idFornecedor` (`fk_idFornecedor`);
 
 --
--- Índices para tabela `tbprecoacessorio`
+-- Índices para tabela `tbroupa`
 --
-ALTER TABLE `tbprecoacessorio`
-  ADD PRIMARY KEY (`idPrecoAcessorio`);
-
---
--- Índices para tabela `tbprecodoce`
---
-ALTER TABLE `tbprecodoce`
-  ADD PRIMARY KEY (`idPrecoDoce`);
-
---
--- Índices para tabela `tbprecorefri`
---
-ALTER TABLE `tbprecorefri`
-  ADD PRIMARY KEY (`idPrecoRefri`);
-
---
--- Índices para tabela `tbprecosalgado`
---
-ALTER TABLE `tbprecosalgado`
-  ADD PRIMARY KEY (`idPrecoSalgado`);
-
---
--- Índices para tabela `tbprecosuco`
---
-ALTER TABLE `tbprecosuco`
-  ADD PRIMARY KEY (`idPrecoSuco`);
-
---
--- Índices para tabela `tbproduto`
---
-ALTER TABLE `tbproduto`
-  ADD PRIMARY KEY (`idProduto`),
-  ADD KEY `fk_idBebida` (`fk_idBebida`),
-  ADD KEY `fk_idAperitivo` (`fk_idAperitivo`),
-  ADD KEY `fk_idObjeto` (`fk_idObjeto`);
-
---
--- Índices para tabela `tbquantacessorio`
---
-ALTER TABLE `tbquantacessorio`
-  ADD PRIMARY KEY (`idQuantAcessorio`);
-
---
--- Índices para tabela `tbquantdoce`
---
-ALTER TABLE `tbquantdoce`
-  ADD PRIMARY KEY (`idQuantDoce`);
-
---
--- Índices para tabela `tbquantrefri`
---
-ALTER TABLE `tbquantrefri`
-  ADD PRIMARY KEY (`idQuantRefri`);
-
---
--- Índices para tabela `tbquantsalgado`
---
-ALTER TABLE `tbquantsalgado`
-  ADD PRIMARY KEY (`idQuantSalgado`);
-
---
--- Índices para tabela `tbquantsuco`
---
-ALTER TABLE `tbquantsuco`
-  ADD PRIMARY KEY (`idQuantSuco`);
-
---
--- Índices para tabela `tbrefri`
---
-ALTER TABLE `tbrefri`
-  ADD PRIMARY KEY (`idRefri`),
-  ADD KEY `fk_idPrecoRefri` (`fk_idPrecoRefri`),
-  ADD KEY `fk_idQuantRefri` (`fk_idQuantRefri`),
-  ADD KEY `fk_idMarcaRefri` (`fk_idMarcaRefri`),
-  ADD KEY `fk_idimagemRefri` (`fk_idimagemRefri`);
-
---
--- Índices para tabela `tbsalgado`
---
-ALTER TABLE `tbsalgado`
-  ADD PRIMARY KEY (`idSalgado`),
-  ADD KEY `fk_idMarcaSalgado` (`fk_idMarcaSalgado`),
-  ADD KEY `fk_idQuantSalgado` (`fk_idQuantSalgado`),
-  ADD KEY `fk_idPrecoSalgado` (`fk_idPrecoSalgado`);
-
---
--- Índices para tabela `tbsuco`
---
-ALTER TABLE `tbsuco`
-  ADD PRIMARY KEY (`idSuco`),
-  ADD KEY `fk_idMarcaSuco` (`fk_idMarcaSuco`),
-  ADD KEY `fk_idPrecoSuco` (`fk_idPrecoSuco`),
-  ADD KEY `fk_idQuantSuco` (`fk_idQuantSuco`);
-
---
--- Índices para tabela `tbtelefonecliente`
---
-ALTER TABLE `tbtelefonecliente`
-  ADD PRIMARY KEY (`idTelefoneCliente`),
-  ADD KEY `fk_idCliente` (`fk_idCliente`);
+ALTER TABLE `tbroupa`
+  ADD PRIMARY KEY (`idRoupa`);
 
 --
 -- Índices para tabela `tbtelefonefornecedor`
 --
 ALTER TABLE `tbtelefonefornecedor`
-  ADD PRIMARY KEY (`idTelefoneFornecedor`),
-  ADD KEY `fornecedor_fk` (`fk_idFornecedor`);
+  ADD PRIMARY KEY (`idtelefoneFornecedor`),
+  ADD KEY `fk_idFornecedor` (`fk_idFornecedor`);
+
+--
+-- Índices para tabela `tbtelefoneusuario`
+--
+ALTER TABLE `tbtelefoneusuario`
+  ADD PRIMARY KEY (`idtelefoneUsuario`);
+
+--
+-- Índices para tabela `tbusuario`
+--
+ALTER TABLE `tbusuario`
+  ADD PRIMARY KEY (`idUsuario`);
 
 --
 -- Índices para tabela `tbvenda`
 --
 ALTER TABLE `tbvenda`
-  ADD PRIMARY KEY (`idVenda`),
-  ADD KEY `fk_idEntrega` (`fk_idEntrega`);
+  ADD PRIMARY KEY (`idVenda`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT de tabela `tbacessorio`
+-- AUTO_INCREMENT de tabela `tbagendamento`
 --
-ALTER TABLE `tbacessorio`
-  MODIFY `idAcessorio` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbagendamento`
+  MODIFY `idagendamento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbaperitivo`
+-- AUTO_INCREMENT de tabela `tbeletrodomestico`
 --
-ALTER TABLE `tbaperitivo`
-  MODIFY `idAperitivo` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbeletrodomestico`
+  MODIFY `idEletrodomestico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbbebida`
+-- AUTO_INCREMENT de tabela `tbeletronico`
 --
-ALTER TABLE `tbbebida`
-  MODIFY `idBebida` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbeletronico`
+  MODIFY `idEletronico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbcliente`
+-- AUTO_INCREMENT de tabela `tbformapagamento`
 --
-ALTER TABLE `tbcliente`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbdoce`
---
-ALTER TABLE `tbdoce`
-  MODIFY `idDoce` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbenderecocliente`
---
-ALTER TABLE `tbenderecocliente`
-  MODIFY `idEnderecoCliente` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbenderecofornecedor`
---
-ALTER TABLE `tbenderecofornecedor`
-  MODIFY `idEnderecoFornecedor` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbentrega`
---
-ALTER TABLE `tbentrega`
-  MODIFY `idEntrega` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbformapagamentocliente`
---
-ALTER TABLE `tbformapagamentocliente`
+ALTER TABLE `tbformapagamento`
   MODIFY `idformapagamento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -836,28 +392,28 @@ ALTER TABLE `tbfornecedor`
   MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbimagemacessorio`
+-- AUTO_INCREMENT de tabela `tbimagemeletrodomestico`
 --
-ALTER TABLE `tbimagemacessorio`
-  MODIFY `idimagemAcessorio` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbimagemeletrodomestico`
+  MODIFY `idimagemEletrodomestico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbimagemdoce`
+-- AUTO_INCREMENT de tabela `tbimagemeletronico`
 --
-ALTER TABLE `tbimagemdoce`
-  MODIFY `idimagemDoce` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbimagemeletronico`
+  MODIFY `idimagemEletronico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbimagemrefri`
+-- AUTO_INCREMENT de tabela `tbimagemfornecedor`
 --
-ALTER TABLE `tbimagemrefri`
-  MODIFY `idimagemRefri` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbimagemfornecedor`
+  MODIFY `idimagemFornecedor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbimagemsalgado`
+-- AUTO_INCREMENT de tabela `tbimagemroupa`
 --
-ALTER TABLE `tbimagemsalgado`
-  MODIFY `idimagemSalgado` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbimagemroupa`
+  MODIFY `idimagemRoupa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbitens`
@@ -866,142 +422,34 @@ ALTER TABLE `tbitens`
   MODIFY `iditens` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbmarcaacessorio`
---
-ALTER TABLE `tbmarcaacessorio`
-  MODIFY `idMarcaAcessorio` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbmarcadoce`
---
-ALTER TABLE `tbmarcadoce`
-  MODIFY `idMarcaDoce` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbmarcarefri`
---
-ALTER TABLE `tbmarcarefri`
-  MODIFY `idMarcaRefri` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbmarcasalgado`
---
-ALTER TABLE `tbmarcasalgado`
-  MODIFY `idMarcaSalgado` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbmarcasuco`
---
-ALTER TABLE `tbmarcasuco`
-  MODIFY `idMarcaSuco` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbobjeto`
---
-ALTER TABLE `tbobjeto`
-  MODIFY `idObjeto` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idpedido` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbprecoacessorio`
+-- AUTO_INCREMENT de tabela `tbroupa`
 --
-ALTER TABLE `tbprecoacessorio`
-  MODIFY `idPrecoAcessorio` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbprecodoce`
---
-ALTER TABLE `tbprecodoce`
-  MODIFY `idPrecoDoce` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbprecorefri`
---
-ALTER TABLE `tbprecorefri`
-  MODIFY `idPrecoRefri` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbprecosalgado`
---
-ALTER TABLE `tbprecosalgado`
-  MODIFY `idPrecoSalgado` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbprecosuco`
---
-ALTER TABLE `tbprecosuco`
-  MODIFY `idPrecoSuco` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbproduto`
---
-ALTER TABLE `tbproduto`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbquantacessorio`
---
-ALTER TABLE `tbquantacessorio`
-  MODIFY `idQuantAcessorio` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbquantdoce`
---
-ALTER TABLE `tbquantdoce`
-  MODIFY `idQuantDoce` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbquantrefri`
---
-ALTER TABLE `tbquantrefri`
-  MODIFY `idQuantRefri` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbquantsalgado`
---
-ALTER TABLE `tbquantsalgado`
-  MODIFY `idQuantSalgado` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbquantsuco`
---
-ALTER TABLE `tbquantsuco`
-  MODIFY `idQuantSuco` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbrefri`
---
-ALTER TABLE `tbrefri`
-  MODIFY `idRefri` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbsalgado`
---
-ALTER TABLE `tbsalgado`
-  MODIFY `idSalgado` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbsuco`
---
-ALTER TABLE `tbsuco`
-  MODIFY `idSuco` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbtelefonecliente`
---
-ALTER TABLE `tbtelefonecliente`
-  MODIFY `idTelefoneCliente` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbroupa`
+  MODIFY `idRoupa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbtelefonefornecedor`
 --
 ALTER TABLE `tbtelefonefornecedor`
-  MODIFY `idTelefoneFornecedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtelefoneFornecedor` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tbtelefoneusuario`
+--
+ALTER TABLE `tbtelefoneusuario`
+  MODIFY `idtelefoneUsuario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tbusuario`
+--
+ALTER TABLE `tbusuario`
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbvenda`
@@ -1014,101 +462,56 @@ ALTER TABLE `tbvenda`
 --
 
 --
--- Limitadores para a tabela `tbacessorio`
+-- Limitadores para a tabela `tbformapagamento`
 --
-ALTER TABLE `tbacessorio`
-  ADD CONSTRAINT `fk_idMarcaAcessorio` FOREIGN KEY (`fk_idMarcaAcessorio`) REFERENCES `tbmarcaacessorio` (`idMarcaAcessorio`),
-  ADD CONSTRAINT `fk_idPrecoAcessorio` FOREIGN KEY (`fk_idPrecoAcessorio`) REFERENCES `tbprecoacessorio` (`idPrecoAcessorio`),
-  ADD CONSTRAINT `fk_idQuantAcessorio` FOREIGN KEY (`fk_idQuantAcessorio`) REFERENCES `tbquantacessorio` (`idQuantAcessorio`),
-  ADD CONSTRAINT `fk_idimagemAcessorio` FOREIGN KEY (`fk_idimagemAcessorio`) REFERENCES `tbimagemacessorio` (`idimagemAcessorio`);
+ALTER TABLE `tbformapagamento`
+  ADD CONSTRAINT `fk_idUsuario` FOREIGN KEY (`fk_idUsuario`) REFERENCES `tbusuario` (`idUsuario`);
 
 --
--- Limitadores para a tabela `tbenderecocliente`
+-- Limitadores para a tabela `tbimagemeletrodomestico`
 --
-ALTER TABLE `tbenderecocliente`
-  ADD CONSTRAINT `idCliente_fk` FOREIGN KEY (`fk_idCliente`) REFERENCES `tbcliente` (`idCliente`);
+ALTER TABLE `tbimagemeletrodomestico`
+  ADD CONSTRAINT `fk_ideletrodomestico` FOREIGN KEY (`fk_idEletrodomestico`) REFERENCES `tbeletrodomestico` (`idEletrodomestico`),
+  ADD CONSTRAINT `fk_idimagemeletrodomestico` FOREIGN KEY (`fk_idEletrodomestico`) REFERENCES `tbeletrodomestico` (`idEletrodomestico`);
 
 --
--- Limitadores para a tabela `tbenderecofornecedor`
+-- Limitadores para a tabela `tbimagemeletronico`
 --
-ALTER TABLE `tbenderecofornecedor`
-  ADD CONSTRAINT `fk_Fornecedor` FOREIGN KEY (`fk_idCliente`) REFERENCES `tbfornecedor` (`idFornecedor`);
+ALTER TABLE `tbimagemeletronico`
+  ADD CONSTRAINT `fk_idEletronico` FOREIGN KEY (`fk_idEletronico`) REFERENCES `tbeletronico` (`idEletronico`);
 
 --
--- Limitadores para a tabela `tbentrega`
+-- Limitadores para a tabela `tbimagemfornecedor`
 --
-ALTER TABLE `tbentrega`
-  ADD CONSTRAINT `fk_iditens` FOREIGN KEY (`fk_iditens`) REFERENCES `tbitens` (`iditens`);
+ALTER TABLE `tbimagemfornecedor`
+  ADD CONSTRAINT `fkFornecedor` FOREIGN KEY (`fk_idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`);
+
+--
+-- Limitadores para a tabela `tbimagemroupa`
+--
+ALTER TABLE `tbimagemroupa`
+  ADD CONSTRAINT `fk_idRoupa` FOREIGN KEY (`fk_idRoupa`) REFERENCES `tbroupa` (`idRoupa`);
 
 --
 -- Limitadores para a tabela `tbitens`
 --
 ALTER TABLE `tbitens`
-  ADD CONSTRAINT `fk_idProduto` FOREIGN KEY (`fk_idProduto`) REFERENCES `tbproduto` (`idProduto`);
-
---
--- Limitadores para a tabela `tbobjeto`
---
-ALTER TABLE `tbobjeto`
-  ADD CONSTRAINT `fk_Acessorio` FOREIGN KEY (`fk_idAcessorio`) REFERENCES `tbacessorio` (`idAcessorio`);
+  ADD CONSTRAINT `fk_eletronico` FOREIGN KEY (`fk_idEletronico`) REFERENCES `tbeletronico` (`idEletronico`),
+  ADD CONSTRAINT `idEletrodomestico` FOREIGN KEY (`idEletrodomestico`) REFERENCES `tbeletrodomestico` (`idEletrodomestico`),
+  ADD CONSTRAINT `idRoupa` FOREIGN KEY (`fk_idRoupa`) REFERENCES `tbroupa` (`idRoupa`);
 
 --
 -- Limitadores para a tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  ADD CONSTRAINT `fk_idFornecedor` FOREIGN KEY (`fk_idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`),
-  ADD CONSTRAINT `fk_idVenda` FOREIGN KEY (`fk_idVenda`) REFERENCES `tbvenda` (`idVenda`);
-
---
--- Limitadores para a tabela `tbproduto`
---
-ALTER TABLE `tbproduto`
-  ADD CONSTRAINT `fk_idAperitivo` FOREIGN KEY (`fk_idAperitivo`) REFERENCES `tbaperitivo` (`idAperitivo`),
-  ADD CONSTRAINT `fk_idBebida` FOREIGN KEY (`fk_idBebida`) REFERENCES `tbbebida` (`idBebida`),
-  ADD CONSTRAINT `fk_idObjeto` FOREIGN KEY (`fk_idObjeto`) REFERENCES `tbobjeto` (`idObjeto`);
-
---
--- Limitadores para a tabela `tbrefri`
---
-ALTER TABLE `tbrefri`
-  ADD CONSTRAINT `fk_idMarcaRefri` FOREIGN KEY (`fk_idMarcaRefri`) REFERENCES `tbmarcarefri` (`idMarcaRefri`),
-  ADD CONSTRAINT `fk_idPrecoRefri` FOREIGN KEY (`fk_idPrecoRefri`) REFERENCES `tbprecorefri` (`idPrecoRefri`),
-  ADD CONSTRAINT `fk_idQuantRefri` FOREIGN KEY (`fk_idQuantRefri`) REFERENCES `tbquantrefri` (`idQuantRefri`),
-  ADD CONSTRAINT `fk_idimagemRefri` FOREIGN KEY (`fk_idimagemRefri`) REFERENCES `tbimagemrefri` (`idimagemRefri`);
-
---
--- Limitadores para a tabela `tbsalgado`
---
-ALTER TABLE `tbsalgado`
-  ADD CONSTRAINT `fk_idMarcaSalgado` FOREIGN KEY (`fk_idMarcaSalgado`) REFERENCES `tbmarcasalgado` (`idMarcaSalgado`),
-  ADD CONSTRAINT `fk_idPrecoSalgado` FOREIGN KEY (`fk_idPrecoSalgado`) REFERENCES `tbprecosalgado` (`idPrecoSalgado`),
-  ADD CONSTRAINT `fk_idQuantSalgado` FOREIGN KEY (`fk_idQuantSalgado`) REFERENCES `tbquantsalgado` (`idQuantSalgado`);
-
---
--- Limitadores para a tabela `tbsuco`
---
-ALTER TABLE `tbsuco`
-  ADD CONSTRAINT `fk_idMarcaSuco` FOREIGN KEY (`fk_idMarcaSuco`) REFERENCES `tbmarcasuco` (`idMarcaSuco`),
-  ADD CONSTRAINT `fk_idPrecoSuco` FOREIGN KEY (`fk_idPrecoSuco`) REFERENCES `tbprecosuco` (`idPrecoSuco`),
-  ADD CONSTRAINT `fk_idQuantSuco` FOREIGN KEY (`fk_idQuantSuco`) REFERENCES `tbquantsuco` (`idQuantSuco`);
-
---
--- Limitadores para a tabela `tbtelefonecliente`
---
-ALTER TABLE `tbtelefonecliente`
-  ADD CONSTRAINT `fk_idCliente` FOREIGN KEY (`fk_idCliente`) REFERENCES `tbcliente` (`idCliente`);
+  ADD CONSTRAINT `fk_idAgendamento` FOREIGN KEY (`fk_idAgendamento`) REFERENCES `tbagendamento` (`idagendamento`),
+  ADD CONSTRAINT `idFornecedor` FOREIGN KEY (`fk_idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`);
 
 --
 -- Limitadores para a tabela `tbtelefonefornecedor`
 --
 ALTER TABLE `tbtelefonefornecedor`
-  ADD CONSTRAINT `fornecedor_fk` FOREIGN KEY (`fk_idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`);
-
---
--- Limitadores para a tabela `tbvenda`
---
-ALTER TABLE `tbvenda`
-  ADD CONSTRAINT `fk_idEntrega` FOREIGN KEY (`fk_idEntrega`) REFERENCES `tbentrega` (`idEntrega`);
+  ADD CONSTRAINT `fk_idFornecedor` FOREIGN KEY (`fk_idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
